@@ -1,3 +1,4 @@
+import AddReminderButton from "@/components/AddReminderButton";
 import SignOutButton from "@/components/socialAuthButtons/signOutButton";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { Image } from "expo-image";
@@ -15,7 +16,11 @@ export default function HomeScreen() {
   return (
     <>
       <View style={styles.header}>
-        <Text style={styles.title}>Hello, {greetingName}</Text>
+        <Text style={styles.title}>Hi, {greetingName}</Text>
+      </View>
+
+      <View>
+        <AddReminderButton />
       </View>
       <Image
         source={require("@/assets/images/partial-react-logo.png")}
