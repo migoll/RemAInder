@@ -21,7 +21,7 @@ Infer:
 - title: a short imperative title, Title Case (e.g. "Call Mom")
 - description: one short sentence describing what to do
 - category: one of "personal", "work", "health", "social", "errand", "other"
-- scheduled_at: full ISO-8601 date-time WITH timezone offset for when the event happens. Interpret ambiguous times generously (e.g. "7" when said in the morning means 7pm that day if 7pm is still in the future, otherwise next day; "tomorrow" means tomorrow; default to a reasonable sensible time).
+- scheduled_at: ISO-8601 date-time WITH the SAME timezone offset as the user's "Current local date-time" given below. Do not convert to UTC. Example: if current local is "2026-04-21T06:57:00+02:00" and user says "in 5 minutes", return "2026-04-21T07:02:00+02:00". Interpret ambiguous times generously (e.g. "7" when said in the morning means 7pm that day if 7pm is still in the future, otherwise next day; "tomorrow" means tomorrow; default to a reasonable sensible time).
 - notify_before_minutes: array of minutes-before-event to pre-notify. Always include 0 (notify at the event time). Add additional pre-notifications based on the type of event: calls/quick tasks get [60, 0], appointments/meetings get [60, 15, 0], travel/trips get [1440, 60, 0]. Pick what's appropriate, never more than 3 entries.
 - notification_message: the body text for the "it's time" notification. Friendly, direct, uses the event in context. Example: "It's 7pm — time to call your mom."
 
@@ -40,11 +40,13 @@ export async function parseReminderPrompt(
   }
 
   const now = new Date();
-  const userMessage = `Current local time: ${now.toString()}
-Current ISO time: ${now.toISOString()}
-Timezone offset (minutes from UTC): ${-now.getTimezoneOffset()}
+  const localIso = formatLocalIso(now);
+  const userMessage = `Current local date-time: ${localIso}
+Current weekday: ${now.toLocaleDateString([], { weekday: "long" })}
 
-User prompt: ${prompt}`;
+User prompt: ${prompt}
+
+Return scheduled_at using the SAME offset as the current local date-time above.`;
 
   const res = await fetch(OPENROUTER_URL, {
     method: "POST",
@@ -78,6 +80,18 @@ User prompt: ${prompt}`;
 
   const parsed = extractJson(content);
   return normalizeReminder(parsed);
+}
+
+function formatLocalIso(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const offsetMin = -d.getTimezoneOffset();
+  const sign = offsetMin >= 0 ? "+" : "-";
+  const abs = Math.abs(offsetMin);
+  const offset = `${sign}${pad(Math.floor(abs / 60))}:${pad(abs % 60)}`;
+  return (
+    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T` +
+    `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${offset}`
+  );
 }
 
 function extractJson(content: string): any {
