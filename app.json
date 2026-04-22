@@ -38,7 +38,14 @@
         }
       ],
       "expo-secure-store",
-      "expo-sqlite"
+      "expo-sqlite",
+      "@react-native-community/datetimepicker",
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "RemAInder adds your reminders to your calendar so they show up alongside your other events."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

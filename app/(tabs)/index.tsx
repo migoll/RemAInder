@@ -2,14 +2,16 @@ import AddReminderButton from "@/components/AddReminderButton";
 import RemindersList, {
   type RemindersListHandle,
 } from "@/components/RemindersList";
-import SignOutButton from "@/components/socialAuthButtons/signOutButton";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import Feather from "@expo/vector-icons/Feather";
+import { useRouter } from "expo-router";
 import { useRef } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   const { user } = useAuthContext();
+  const router = useRouter();
   const listRef = useRef<RemindersListHandle>(null);
 
   const fullName =
@@ -25,7 +27,14 @@ export default function HomeScreen() {
           <Text style={styles.greeting}>Hi, {greetingName}</Text>
           <Text style={styles.subtitle}>Here are your reminders</Text>
         </View>
-        <SignOutButton />
+        <Pressable
+          onPress={() => router.push("/settings")}
+          hitSlop={12}
+          style={styles.settingsButton}
+          accessibilityLabel="Open settings"
+        >
+          <Feather name="settings" size={24} color="#2E7D32" />
+        </Pressable>
       </View>
 
       <AddReminderButton onCreated={() => listRef.current?.refresh()} />
@@ -57,5 +66,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#2E7D32",
     fontFamily: "Nunito_400Regular",
+  },
+  settingsButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#F1F8E9",
   },
 });
