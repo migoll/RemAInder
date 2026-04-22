@@ -1,5 +1,6 @@
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
+import { getQuietHoursPrefs, shiftOutOfQuietHours } from "./preferences";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -50,13 +51,15 @@ export async function scheduleReminderNotifications(params: {
   const granted = await ensureNotificationPermission();
   if (!granted) return [];
 
+  const quietHours = await getQuietHoursPrefs();
   const now = Date.now();
   const out: ScheduledNotification[] = [];
 
   for (const minutesBefore of params.notifyBeforeMinutes) {
-    const fireAt = new Date(
+    let fireAt = new Date(
       params.scheduledAt.getTime() - minutesBefore * 60_000,
     );
+    fireAt = shiftOutOfQuietHours(fireAt, quietHours);
     if (fireAt.getTime() <= now + 1000) continue;
 
     const body =

@@ -1,5 +1,7 @@
-import { parseReminderPrompt } from "@/lib/openrouter";
+import { addReminderToCalendar } from "@/lib/calendar";
 import { scheduleReminderNotifications } from "@/lib/notifications";
+import { parseReminderPrompt } from "@/lib/openrouter";
+import { getCalendarPrefs } from "@/lib/preferences";
 import { createReminder } from "@/lib/reminders";
 import Feather from "@expo/vector-icons/Feather";
 import { useState } from "react";
@@ -60,6 +62,16 @@ export default function AddReminderButton({ onCreated }: Props) {
         notification_message: parsed.notification_message,
         notification_ids: scheduled.map((s) => s.id),
       });
+
+      const calendarPrefs = await getCalendarPrefs();
+      if (calendarPrefs.enabled && calendarPrefs.calendarId) {
+        await addReminderToCalendar({
+          calendarId: calendarPrefs.calendarId,
+          title: parsed.title,
+          notes: parsed.description,
+          scheduledAt: scheduledAt,
+        });
+      }
 
       setSuccess(
         `Reminder set for ${scheduledAt.toLocaleString([], {
