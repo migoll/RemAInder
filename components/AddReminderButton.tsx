@@ -95,7 +95,7 @@ export default function AddReminderButton({ onCreated }: Props) {
   return (
     <View>
       <Pressable style={styles.button} onPress={() => setModalOpen(true)}>
-        <Feather name="plus" size={28} color="white" />
+        <Feather name="plus" size={28} color="#ffffff" />
         <Text style={styles.buttonText}>New reminder</Text>
       </Pressable>
 

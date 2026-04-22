@@ -40,8 +40,9 @@ export default function SettingsScreen() {
   const [quietHours, setQuietHours] = useState<QuietHoursPrefs | null>(null);
 
   const [calendarBusy, setCalendarBusy] = useState(false);
-  const [androidPickerCalendars, setAndroidPickerCalendars] =
-    useState<PickableCalendar[] | null>(null);
+  const [androidPickerCalendars, setAndroidPickerCalendars] = useState<
+    PickableCalendar[] | null
+  >(null);
   const androidPickerResolveRef = useRef<
     ((c: PickableCalendar | null) => void) | null
   >(null);
@@ -282,10 +283,10 @@ export default function SettingsScreen() {
           disabled={signingOut}
         >
           {signingOut ? (
-            <ActivityIndicator color="#d03535" />
+            <ActivityIndicator color="#FF4081" />
           ) : (
             <>
-              <Feather name="log-out" size={18} color="#d03535" />
+              <Feather name="log-out" size={18} color="#FF4081" />
               <Text style={styles.signOutText}>Log out</Text>
             </>
           )}
@@ -486,15 +487,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingTop: 8,
+    paddingHorizontal: 20,
+    paddingTop: 20,
     paddingBottom: 12,
   },
   backButton: { width: 28, alignItems: "flex-start" },
   headerTitle: {
     fontSize: 20,
     fontFamily: "Nunito_700Bold",
-    color: "#111418",
+    color: "#2E7D32",
   },
   scroll: { padding: 16, gap: 20, paddingBottom: 32 },
   section: { gap: 8 },
@@ -510,8 +511,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#ECEFE8",
+    borderColor: "#F1F8E9",
     overflow: "hidden",
+    shadowColor: "#173404",
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 1,
   },
   row: {
     flexDirection: "row",
@@ -521,12 +527,12 @@ const styles = StyleSheet.create({
   rowLabel: {
     fontSize: 15,
     fontFamily: "Nunito_700Bold",
-    color: "#111418",
+    color: "#173404",
   },
   rowSub: {
     fontSize: 13,
     fontFamily: "Nunito_400Regular",
-    color: "#5c6a54",
+    color: "#2E7D32",
     marginTop: 2,
   },
   subAction: {
@@ -536,7 +542,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 12,
     borderTopWidth: 1,
-    borderTopColor: "#ECEFE8",
+    borderTopColor: "#F1F8E9",
   },
   subActionText: {
     fontSize: 14,
@@ -546,7 +552,7 @@ const styles = StyleSheet.create({
   timeRow: {
     flexDirection: "row",
     borderTopWidth: 1,
-    borderTopColor: "#ECEFE8",
+    borderTopColor: "#F1F8E9",
   },
   timeCell: {
     flex: 1,
@@ -556,12 +562,12 @@ const styles = StyleSheet.create({
   timeLabel: {
     fontSize: 12,
     fontFamily: "Nunito_400Regular",
-    color: "#5c6a54",
+    color: "#2E7D32",
   },
   timeValue: {
     fontSize: 20,
     fontFamily: "Nunito_700Bold",
-    color: "#111418",
+    color: "#173404",
     marginTop: 4,
   },
   hint: {
@@ -576,7 +582,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#f5d0d0",
+    borderColor: "#FF408170",
     paddingVertical: 14,
     flexDirection: "row",
     alignItems: "center",
@@ -586,7 +592,7 @@ const styles = StyleSheet.create({
   signOutText: {
     fontSize: 15,
     fontFamily: "Nunito_700Bold",
-    color: "#d03535",
+    color: "#FF4081",
   },
   buttonDisabled: { opacity: 0.5 },
   sheetBackdrop: {
@@ -614,7 +620,7 @@ const styles = StyleSheet.create({
   sheetTitle: {
     fontSize: 15,
     fontFamily: "Nunito_700Bold",
-    color: "#111418",
+    color: "#173404",
   },
   sheetCancel: {
     fontSize: 15,
@@ -632,7 +638,7 @@ const styles = StyleSheet.create({
     gap: 12,
     padding: 14,
     borderTopWidth: 1,
-    borderTopColor: "#ECEFE8",
+    borderTopColor: "#F1F8E9",
   },
   calendarDot: {
     width: 10,

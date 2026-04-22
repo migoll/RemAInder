@@ -134,7 +134,7 @@ const RemindersList = forwardRef<RemindersListHandle>((_props, ref) => {
                 style={styles.iconButton}
                 hitSlop={8}
               >
-                <Feather name="trash-2" size={18} color="#d03535" />
+                <Feather name="trash-2" size={18} color="#FF4081" />
               </Pressable>
             </View>
           </View>
@@ -217,10 +217,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-    shadowColor: "#000000",
-    shadowOpacity: 0.06,
+    shadowColor: "#173404",
+    shadowOpacity: 0.05,
     shadowRadius: 6,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 4 },
     elevation: 1,
     borderWidth: 1,
     borderColor: "#F1F8E9",
