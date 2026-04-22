@@ -4,6 +4,7 @@ import RemindersList, {
 } from "@/components/RemindersList";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import Feather from "@expo/vector-icons/Feather";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
@@ -24,8 +25,11 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container} edges={["top"]}>
       <View style={styles.header}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.greeting}>Hi, {greetingName}</Text>
-          <Text style={styles.subtitle}>Here are your reminders</Text>
+          <Image
+            source={require("../assets/images/remainder_logo.svg")}
+            contentFit="contain"
+            style={styles.logo}
+          />
         </View>
         <Pressable
           onPress={() => router.push("/settings")}
@@ -35,6 +39,11 @@ export default function HomeScreen() {
         >
           <Feather name="settings" size={24} color="#2E7D32" />
         </Pressable>
+      </View>
+
+      <View style={styles.greetingContainer}>
+        <Text style={styles.greeting}>Hi, {greetingName}</Text>
+        <Text style={styles.subtitle}>Here are your reminders</Text>
       </View>
 
       <AddReminderButton onCreated={() => listRef.current?.refresh()} />
@@ -53,8 +62,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 4,
+    paddingTop: 20,
+    paddingBottom: 12,
     gap: 10,
   },
   greeting: {
@@ -74,5 +83,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#F1F8E9",
+  },
+  logo: {
+    width: 180,
+    height: 54,
+  },
+  greetingContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 12,
   },
 });
